@@ -18,6 +18,6 @@ if sat>=6 and sat<12:
 elif sat>=12 and sat<18: 
     print('Sada je popodne')
 elif sat>=18 and sat<22:
-    print('Sada je veče')
+    print('Sada je vece')
 else: 
-    print('Sada je noć')
+    print('Sada je noc')

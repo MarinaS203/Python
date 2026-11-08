@@ -48,4 +48,36 @@ def clean_tags(text: str) -> str:
 
 clean_tags(' Apple | orangE | CheRRy ')
 
-#treba da dodam 4. zadatak
+# 4. Napisati funkciju count_products(csv_lines: list) -> dict koja analizira porudžbine iz CSV podataka i vraća ukupan broj naručenih proizvoda. Svaki red sadrži ime kupca, naziv proizvoda i količinu, razdvojene zarezom. Prvi red predstavlja zaglavlje i treba ga zanemariti. Ako se isti proizvod pojavljuje u više redova, sabrati njegove količine.
+# Input: ['customer,product,quantity',
+# 'Alice,laptop,2',
+# 'Bob,mouse,3',
+# 'Alice,laptop,1',
+# 'Charlie,keyboard,2',
+# 'Bob,mouse,1'
+# ]
+# Output: {'laptop': 3,
+#          'mouse': 4,
+#          'keyboard': 2
+# }
+
+def count_products(csv_lines: list) -> dict:
+    new_dict={}
+    new_list=[]
+    for l in csv_lines[1:]:
+        new_list.append(l.split(','))
+    # print(new_list)
+    for l in new_list:
+        if l[1] in new_dict:
+            new_dict[l[1]]+=int(l[2])
+        else:
+            new_dict[l[1]]=int(l[2])
+    print(new_dict)
+    
+count_products(['customer,product,quantity',
+'Alice,laptop,2',
+'Bob,mouse,3',
+'Alice,laptop,1',
+'Charlie,keyboard,2',
+'Bob,mouse,1'
+])

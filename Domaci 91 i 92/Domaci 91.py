@@ -13,7 +13,9 @@ def safe_divide(a: float, b: float) -> float | None:
 # safe_divide(10,2)
 safe_divide(10,0)
 
-# 2. Napisati funkciju safe_int(value: str) -> int | None koja pokušava da prosleđeni string pretvori u ceo broj. Ako string predstavlja ispravan ceo broj, funkcija vraća taj broj.
+# 2. Napisati funkciju safe_int(value: str) -> int | None koja 
+#pokušava da prosleđeni string pretvori u ceo broj. 
+#Ako string predstavlja ispravan ceo broj, funkcija vraća taj broj.
 # Ako konverzija nije moguća, funkcija vraća None.
 # Primer:safe_int('25') # 25
 # safe_int('-10') # -10
@@ -29,7 +31,10 @@ def safe_int(value: str) -> int | None:
 safe_int('-10')
 # safe_int('abc')
 
-# 3. Napisati funkciju get_grade(grades: dict, student: str) ->int | None koja vraća ocenu studenta iz rečnika. Ako student postoji u rečniku, funkcija vraća njegovu ocenu. Ako student ne postoji, funkcija vraća None. Koristiti try i except.
+# 3. Napisati funkciju get_grade(grades: dict, student: str) ->int | None 
+#koja vraća ocenu studenta iz rečnika. Ako student postoji u rečniku, 
+#funkcija vraća njegovu ocenu. Ako student ne postoji, funkcija vraća None. 
+#Koristiti try i except.
 # Primer:get_grade({'Ana': 5,'Marko': 4,'Jovana': 5},'Marko') # 4
 # get_grade({'Ana': 5,'Marko': 4,'Jovana': 5},'Petar') # None
 
@@ -41,3 +46,19 @@ def get_grade(grades: dict, student: str) ->int | None:
 # get_grade({'Ana': 5,'Marko': 4,'Jovana': 5},'Marko')
 get_grade({'Ana': 5,'Marko': 4,'Jovana': 5},'Petar')
 
+# 4. Napisati funkciju read_file(path: str) -> str koja čita i vraća kompletan 
+#sadržaj tekstualnog fajla. Ako fajl ne postoji, funkcija vraća poruku 'File not found.'.
+#Koristiti try i except. Za otvaranje fajla koristiti with open().
+import csv
+def read_file(path: str) -> str:
+    try:
+        with open(path) as f:
+            reader=csv.reader(f)
+            text=''
+            for r in reader:
+                text+=str(r)
+        return text
+    except FileNotFoundError:
+        return 'File not found.'
+    
+read_file('/Workspace/Users/tosic.marina203@gmail.com/Python/data/raw/teams.csv')

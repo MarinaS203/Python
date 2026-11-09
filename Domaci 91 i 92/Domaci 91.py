@@ -62,3 +62,4 @@ def read_file(path: str) -> str:
         return 'File not found.'
     
 read_file('/Workspace/Users/tosic.marina203@gmail.com/Python/data/raw/teams.csv')
+

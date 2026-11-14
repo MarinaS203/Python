@@ -37,11 +37,11 @@ m['total_goals'].nlargest(10)
 
 # 2. Analiza jednog tima
 # Za tim po izboru:
-m['home_team'] #Tim je 'BRU'
-
+m['home_team'] 
+team='BRU' #Tim je 'BRU'
 # 1.Prikazati sve utakmice u kojima je učestvovao.
 
-m.loc[(m['home_team']=='BRU') | (m['away_team']=='BRU')] #38 utakmica
+m.loc[(m['home_team']==team) | (m['away_team']==team)] #38 utakmica
 
 # 2.Koliko je puta pobedio, izgubio i odigrao nerešeno?
 
@@ -52,25 +52,62 @@ m['result']='D'
 m.loc[m['goal_diff'] <0, 'result'] ='A'
 m.loc[m['goal_diff'] >0, 'result'] ='H'
 
-# len(m[((m['result']=='H') & (m['home_team']=='BRU')) | ((m['result']=='A') & (m['away_team']=='BRU'))]) 
+len(m[((m['result']=='H') & (m['home_team']==team)) | ((m['result']=='A') & (m['away_team']==team))]) 
 # #ukupno 10 pobeda, kod kuce i u gostima
 
-# len(m[((m['result']=='A') & (m['home_team']=='BRU')) | ((m['result']=='H') & (m['away_team']=='BRU'))]) 
-# #ukupno 16 poraza, kod kuce i u gostima
+len(m[((m['result']=='A') & (m['home_team']==team)) | ((m['result']=='H') & (m['away_team']==team))]) 
+#ukupno 16 poraza, kod kuce i u gostima
 
-# len(m[(m['result']=='D') & ((m['home_team']=='BRU') | (m['away_team']=='BRU'))]) 
-# #12 neresenih utakmica, kod kuce i u gostima
+len(m[(m['result']=='D') & ((m['home_team']==team) | (m['away_team']==team))]) 
+#12 neresenih utakmica, kod kuce i u gostima
 
 
-# # 3.Koliko je golova postigao kao domaćin, a koliko kao gost?
+# 3.Koliko je golova postigao kao domaćin, a koliko kao gost?
 
-# m.loc[m['home_team'] == 'BRU', 'home_goals'].sum() #23 gola kao domacin
-# m.loc[m['away_team'] == 'BRU', 'away_goals'].sum() #16 golova kao gost
+m.loc[m['home_team'] == 'BRU', 'home_goals'].sum() #23 gola kao domacin
+m.loc[m['away_team'] == 'BRU', 'away_goals'].sum() #16 golova kao gost
 
 
 # 4.Pronaći utakmicu u kojoj je postigao najviše golova.
 
-home=m.loc[m['home_team'] == 'BRU', 'home_goals']
-away=m.loc[m['away_team'] == 'BRU', 'away_goals']
-home.max()
-#ovo treba da doradim
+# home=(m.loc[m['home_team'] == team, 'home_goals']).max()
+# home 
+# away=(m.loc[m['away_team'] == team, 'away_goals']).max()
+# away
+# total_max=max([home, away])
+# total_max
+# max([(m.loc[m['home_team'] == team, 'home_goals']).max(), (m.loc[m['away_team'] == team, 'away_goals']).max()]) #vraca max vrednost, ali ne vraca ceo red
+#Ovo bi bez novih funkcija moglo da se uradi tako sto trazim kada je tim bio home_team ili away_team, i kada je broj golova bio 4. Nasla sam ovu varijantu, sa idxmax(), koja vraca ceo red.
+
+as_home_team = m[m['home_team'] == team]
+as_away_team = m[m['away_team'] == team]
+
+home_max_goals = m.loc[(as_home_team['home_goals']).idxmax()]
+away_max_goals = m.loc[(as_away_team['away_goals']).idxmax()]
+
+if (as_home_team['home_goals']).max() > (as_away_team['away_goals']).max():
+    print(home_max_goals)
+else:
+    print(away_max_goals)
+
+
+    # 3. Analiza stadiona
+
+# 1.Prikazati sve različite stadione na kojima su odigrane
+# utakmice.
+
+m['stadium'].unique()
+
+# 2.Pronaći stadion na kojem je odigrano najviše utakmica.
+
+m['stadium'].value_counts() #Na svim je odigrano po 19 utakmica.
+
+# 3.Za svaki stadion izračunati prosečnu posećenost.
+
+avg_att = round(m.groupby('stadium')['attendance'].mean(),2) 
+#nisam umela da uradim iskljucivo preko metoda koje su radjene na casu, trazila sam group by sintaksu za pandas 
+avg_att
+
+# 4.Prikazati pet stadiona sa najvećom prosečnom
+# posećenošću.
+avg_att.nlargest(5)

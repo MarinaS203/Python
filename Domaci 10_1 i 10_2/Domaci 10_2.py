@@ -91,3 +91,74 @@ indexes
 # Izračunati prosečno vreme izvršavanja svih procesa.
 avg_duration=np.mean(seconds)
 avg_duration
+
+
+# 4. Prodavnica beleži prihode od četiri različite kategorije proizvoda
+# tokom šest meseci. Redovi predstavljaju kategorije proizvoda, a
+# kolone mesece. Potrebno je:
+
+rng2 = np.random.default_rng(seed=73)
+array1=rng2.integers(low=100, high=1000, size=24)
+matrix1=array1.reshape(4,6)
+matrix1
+# Napravila sam DataFrame, gde sam spakovala ove podatke, da bih na df primenila agregatne funkcije 
+row_names1=['Proizvod1','Proizvod2','Proizvod3','Proizvod4']
+col_names1=['Mesec1', 'Mesec2', 'Mesec3', 'Mesec4', 'Mesec5', 'Mesec6']
+df1 = pd.DataFrame(matrix1, index=row_names1, columns=col_names1)
+print(df1)
+
+# Izračunati ukupan prihod svake kategorije proizvoda.
+total_revenue_product=df1.sum(axis=1)
+total_revenue_product
+
+# Izračunati ukupan prihod za svaki mesec.
+total_revenue_month=df1.sum(axis=0)
+total_revenue_month
+
+# Pronaći kategoriju proizvoda sa najvećim ukupnim prihodom.
+max_rev=total_revenue_product.max()
+max_rev_product=total_revenue_product.idxmax()
+print(max_rev_product, max_rev)
+
+# Pronaći mesec sa najvećim ukupnim prihodom.
+max_month_sum=total_revenue_month.max()
+max_month=total_revenue_month.idxmax()
+print(max_month, max_month_sum)
+
+# Izračunati prosečan prihod po kategoriji proizvoda.
+avg_revenue_product=round(df1.mean(axis=1),2)
+avg_revenue_product
+
+# Izračunati prosečan mesečni prihod svih kategorija.
+avg_revenue_month=round(df1.mean(axis=0),2)
+avg_revenue_month
+
+# 5. Sistem beleži prosečne dnevne temperature tokom 15 dana. Neki
+# podaci nedostaju ili nisu validni.
+# Validna temperatura mora biti između -20 i 50 stepeni.
+# Potrebno je:
+
+# Izračunati broj nedostajućih i nevalidnih vrednosti.
+# Izračunati procenat nevalidnih i nedostajućih zapisa zajedno.
+# Kreirati novi niz koji sadrži samo validne temperature.
+# Izračunati prosečnu temperaturu bez nedostajućih i nevalidnih
+# vrednosti.
+
+#Ovo je random generisani niz, sa float i NaN vrednostima, duzine 15
+rng3=np.random.default_rng(seed=21)
+data=rng3.uniform(low=-50, high=70, size=15)
+data_with_nan=np.where(rng3.random(15)<0.2, np.nan, data)
+s=pd.Series(data_with_nan)
+arr=pd.array(data_with_nan, dtype="Float64")
+print(s)
+
+# Identifikovati nedostajuće vrednosti.
+s.isna()
+print(f'Nedostaju vrednosti: {s.isna()}')
+
+# Identifikovati nevalidne temperature (vrednosti manje od -20 ili
+# veće od 50).
+print(f'Nevalidne temperature su: {s[(s<-20) | (s>50)]}')
+
+# Pronaći indekse nevalidnih vrednosti. 
+#dovrsi!!!

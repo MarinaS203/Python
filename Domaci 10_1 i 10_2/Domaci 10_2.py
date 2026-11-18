@@ -27,8 +27,8 @@ avg_active=round(active_users.mean(),2)
 avg_active
 
 # Pronaći sat sa najvećim brojem korisnika.
-max_users=active_users.max()
-max_users
+max_users=active_users.argmax()
+max_users+1
 
 
 # 2. Sistem beleži CPU, RAM i disk usage za pet različitih servera.

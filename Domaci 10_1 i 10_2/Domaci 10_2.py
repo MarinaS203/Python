@@ -138,12 +138,6 @@ avg_revenue_month
 # Validna temperatura mora biti između -20 i 50 stepeni.
 # Potrebno je:
 
-# Izračunati broj nedostajućih i nevalidnih vrednosti.
-# Izračunati procenat nevalidnih i nedostajućih zapisa zajedno.
-# Kreirati novi niz koji sadrži samo validne temperature.
-# Izračunati prosečnu temperaturu bez nedostajućih i nevalidnih
-# vrednosti.
-
 #Ovo je random generisani niz, sa float i NaN vrednostima, duzine 15
 rng3=np.random.default_rng(seed=21)
 data=rng3.uniform(low=-50, high=70, size=15)
@@ -153,12 +147,35 @@ arr=pd.array(data_with_nan, dtype="Float64")
 print(s)
 
 # Identifikovati nedostajuće vrednosti.
-s.isna()
-print(f'Nedostaju vrednosti: {s.isna()}')
+missing_values=np.isnan(s)
+print(f'Nedostaju vrednosti: {missing_values}')
 
 # Identifikovati nevalidne temperature (vrednosti manje od -20 ili
 # veće od 50).
-print(f'Nevalidne temperature su: {s[(s<-20) | (s>50)]}')
+invalid=(s<-20) | (s>50)
+print(f'Nevalidne temperature su: {invalid}')
 
-# Pronaći indekse nevalidnih vrednosti. 
-#dovrsi!!!
+# Pronaći indekse nevalidnih vrednosti.
+#Zelim da kazem da mi je tek na ovom mestu palo na pamet da otvorim pdf sa casa i sad tek vidim da skoro sve ovo ima tamo, i da nisam morala da pravim ove datafrejmove niti random nizove, ali neka ovo bude umetnicka sloboda. :)
+indexes1=np.where(invalid)
+print(f'Indeksi nevalidnih vrednosti su: {indexes1[0]}')
+
+# Izračunati broj nedostajućih i nevalidnih vrednosti.
+count=sum(missing_values)+sum(invalid)
+count
+
+# Izračunati procenat nevalidnih i nedostajućih zapisa zajedno.
+percentage=(count/s.size)*100
+print("Procenat nevalidnih zapisa:", percentage, "%")
+
+# Kreirati novi niz koji sadrži samo validne temperature.
+invalid1=(s<-20) | (s>50) | np.isnan(s)
+valid_s = s[~invalid1]
+print("Validni niz:", valid_s)
+
+# Izračunati prosečnu temperaturu bez nedostajućih i nevalidnih
+# vrednosti.
+s_clean=s.astype(float)
+s_clean[invalid]=np.nan
+average=np.nanmean(s_clean)
+print("Prosečna vrednost niza:", round(average,2))
